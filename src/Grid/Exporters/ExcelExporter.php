@@ -32,7 +32,7 @@ abstract class ExcelExporter extends AbstractExporter implements FromQuery, With
     public function headings(): array
     {
         if (!empty($this->columns)) {
-            return array_values($this->columns);
+            return array_keys($this->columns);
         }
 
         return $this->headings;
@@ -44,9 +44,9 @@ abstract class ExcelExporter extends AbstractExporter implements FromQuery, With
     public function query()
     {
         if (!empty($this->columns)) {
-            $columns = array_keys($this->columns);
+            $columns = array_values($this->columns);
 
-            $eagerLoads = array_keys($this->getQuery()->getEagerLoads());
+            $eagerLoads = array_values($this->getQuery()->getEagerLoads());
 
             $columns = collect($columns)->reject(function ($column) use ($eagerLoads) {
                 return Str::contains($column, '.') || in_array($column, $eagerLoads);
